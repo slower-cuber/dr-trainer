@@ -1,0 +1,8 @@
+.git
+.gitignore
+**/.git
+**/.DS_Store
+.dockerignore
+venv/
+.idea/
+**/*.md
