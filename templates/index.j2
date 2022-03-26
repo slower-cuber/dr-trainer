@@ -3,10 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Simple DR Trainer</title>
+
+    <meta name="description" content="Too simple DR trigger trainer">
+    <meta name="author" content="Slower Cuber">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+      .sc {font-size: 1.4em;}
+      .ans_block {margin-top: 3em;}
+      #answer {font-size: 2em;}
+    </style>
 </head>
 
 <body>
-Hi
+
+<h2> 4e4c trigger trainer </h2>
+Please reach DR in no more than 4 moves
+<hr />
+
+Scramble: <div class="sc">{{scramble}}</div>
+<div class="eo">EO axis: {{eo_axis}}</div>
+
+<div class="ans_block">
+    <button id="toggle_ans">Possible Answer</button>
+    (not guaranteed the only nor the shortest)
+
+    <div id="answer" style="display:none">{{trigger}}</div>
+</div>
+
 </body>
+
+<script type="module">
+  document.getElementById("toggle_ans").onclick = function() {
+    var ans = document.getElementById("answer");
+    if (ans.style.display === "none") {
+      ans.style.display = "block";
+    } else {
+      ans.style.display = "none";
+    }
+  }
+</script>
 
 </html>

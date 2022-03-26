@@ -1,5 +1,5 @@
 .PHONY: local
-local: venv/bin
+local: venv/bin gen-twophase-tables
 	venv/bin/uvicorn src.main:app --port 3033 --reload
 
 venv:
@@ -18,8 +18,12 @@ upgrade: venv src/requirements-to-freeze.txt
 	venv/bin/pip install -r src/requirements-to-freeze.txt --upgrade
 	venv/bin/pip freeze > src/requirements.txt
 
+.PHONY: gen-twophase-tables
+gen-twophase-tables:
+	venv/bin/python -c 'import twophase.solver'
+
 .PHONY: docker-build
-docker-build:
+docker-build: gen-twophase-tables
 	docker build -t dr-trainer .
 
 .PHONY: docker-run
