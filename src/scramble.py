@@ -1,10 +1,11 @@
 from random import choice
-from typing import List
+from typing import List, Dict
 
 from twophase import cubie
 from twophase import solver
 
 from src.move import STR_2_MOVE, inverse_move_string
+from src.rotation import get_random_cube_rotation
 
 
 DR_MOVES = ["U", "U'", "D", "D'",  "U2", "D2",
@@ -54,26 +55,35 @@ def gen_dr_moves(n=15):
     return [choice(DR_MOVES) for _ in range(n)]
 
 
-def get_trigger_moves(trigger_type='4e4c') -> (List, List):
+def get_trigger_moves(trigger_type='4e4c') -> (List, str):
     dr_moves = gen_dr_moves()
     if trigger_type == '4e4c':
-        trigger = choice(MOVES_4e4c)
-        return dr_moves + list(inverse_move_string(trigger)), trigger
+        trigger_str = choice(MOVES_4e4c)
+        return dr_moves + list(inverse_move_string(trigger_str)), trigger_str
     else:
         raise ValueError(f'Unsupported trigger type {trigger_type}')
 
 
-def get_training_scramble(trigger_type='4e4c') -> (str, str):
+def get_training_scramble(trigger_type='4e4c') -> Dict:
     destination_cube = cubie.CubieCube()
-    dr_moves, trigger = get_trigger_moves(trigger_type)
+    dr_moves, trigger_string = get_trigger_moves(trigger_type)
     for dr_move in dr_moves:
         destination_cube.multiply(
             cubie.moveCube[STR_2_MOVE[dr_move]]
         )
 
     ans_string = solver.solve(destination_cube.to_facelet_cube().to_string(),
-                        max_length=21)
+                              max_length=21)
     clear_ans_string = ans_string.rsplit(' (', 1)[0]
+
     scramble = list(inverse_move_string(clear_ans_string))
 
-    return ' '.join(scramble), trigger
+    cube_rotation = get_random_cube_rotation()
+    rotated_scramble = cube_rotation.to_face_moves(scramble)
+    rotated_trigger = cube_rotation.to_face_moves(trigger_string)
+
+    return {
+        'scramble': rotated_scramble,
+        'trigger': rotated_trigger,
+        'cube_rotation': cube_rotation
+    }

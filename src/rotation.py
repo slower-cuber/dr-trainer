@@ -1,4 +1,6 @@
 from typing import Union, List
+from random import  choice
+
 
 class CubeRotation:
     # front+up color: moves in space -> moves on color
@@ -47,3 +49,7 @@ cube_rotation_list: List[CubeRotation] = []
 for fu in CubeRotation.face_maps.keys():
     _front_color, _up_color = fu[0], fu[1]
     cube_rotation_list.append(CubeRotation(_front_color, _up_color))
+
+
+def get_random_cube_rotation() -> CubeRotation:
+    return choice(cube_rotation_list)
