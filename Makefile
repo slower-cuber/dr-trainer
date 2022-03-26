@@ -25,7 +25,9 @@ gen-twophase-tables:
 .PHONY: docker-build
 docker-build: gen-twophase-tables
 	docker build -t dr-trainer .
+	docker save dr-trainer | gzip > dr-trainer.tgz
 
 .PHONY: docker-run
 docker-run:
-	docker run -d -p 55666:3033 --name dr_trainer dr-trainer
+	docker load < dr-trainer.tgz
+	docker run -d -p 80:3033 --name dr_trainer dr-trainer
