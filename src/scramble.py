@@ -8,7 +8,8 @@ from src.move import STR_2_MOVE, inverse_move_string
 from src.rotation import get_random_cube_rotation
 
 
-DR_MOVES = ["U", "U'", "D", "D'",  "U2", "D2",
+DR_MOVES = ["U", "U'", "D", "D'",
+            "U2", "D2",
             "L2", "R2", "F2", "B2"]
 
 MOVES_4e4c = [# "R",
@@ -51,8 +52,19 @@ MOVES_4e4c = [# "R",
               "R' U2 F2 R"]
 
 
-def gen_dr_moves(n=15):
-    return [choice(DR_MOVES) for _ in range(n)]
+def gen_dr_moves(n=20):
+    moves = []
+    prev_move_face = None
+
+    while True:
+        m = choice(DR_MOVES)
+        if m[0] == prev_move_face:
+            continue
+        moves.append(m)
+        prev_move_face = m[0]
+        if len(moves) >= n:
+            print(moves)
+            return moves
 
 
 def get_trigger_moves(trigger_type='4e4c') -> (List, str):
