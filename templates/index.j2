@@ -10,7 +10,7 @@
 
     <style>
       .sc {font-size: 1.4em;}
-      .ans_block {margin-top: 3em;}
+      .ans_block {margin-top: 2em;}
       #answer {font-size: 2em;}
     </style>
 </head>
@@ -31,6 +31,11 @@ Scramble: <div class="sc">{{scramble}}</div>
     <div id="answer" style="display:none">{{trigger}}</div>
 </div>
 
+<div style="margin-top: 4em;">
+    <button id="next_sc">New SC</button>
+    Warning: you cannot go back
+</div>
+
 </body>
 
 <script type="module">
@@ -41,6 +46,10 @@ Scramble: <div class="sc">{{scramble}}</div>
     } else {
       ans.style.display = "none";
     }
+  }
+
+  document.getElementById("next_sc").onclick = function() {
+    window.location.reload();
   }
 </script>
 
