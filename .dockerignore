@@ -6,5 +6,6 @@
 venv/
 .idea/
 **/*.md
+screenshot.png
 
 dr-trainer.tgz
