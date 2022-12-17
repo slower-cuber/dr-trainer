@@ -26,6 +26,21 @@ async def read_root(request: Request):
                                           'eo_axis': cube_rotation.front_color
                                       })
 
+@app.get('/easy')
+async def read_root(request: Request):
+    output = get_training_scramble(scramble_mode='easy')
+    scramble = ' '.join(output['scramble'])
+    trigger = ' '.join(output['trigger'])
+    cube_rotation: CubeRotation = output['cube_rotation']
+
+    return templates.TemplateResponse('index.j2',
+                                      context={
+                                          'request': request,
+                                          'scramble': scramble,
+                                          'trigger': trigger,
+                                          'eo_axis': cube_rotation.front_color
+                                      })
+
 
 @app.get('/health')
 async def get_health(request: Request):
