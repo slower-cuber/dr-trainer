@@ -1,4 +1,6 @@
 from collections import defaultdict
+import pickle
+
 from twophase import cubie
 
 from src.move import move_cubie, concat_moves
@@ -60,26 +62,31 @@ def bfs_htr(depth: int):
                         moves_set_of_depth[depth].append(moves)
 
 
+def save_htr_cubie():
+    for qtm, moves_set in moves_set_of_depth.items():
+        corner_cases = []
+        for moves in moves_set:
+            c = cubie.CubieCube()
+            move_cubie(c, moves)
+            corner_cases.append((moves,c))
+        with open(f"corner_case_{qtm}.pkl", "wb") as f:
+            pickle.dump(corner_cases, f)
 
-bfs_htr(0)
-print(moves_set_of_depth)
-print(len(cp2moves))
 
-bfs_htr(1)
-print(moves_set_of_depth)
-print(len(cp2moves))
+def build_corner_cases():
+    bfs_htr(0)
+    print(len(cp2moves))
+    bfs_htr(1)
+    print(len(cp2moves))
+    bfs_htr(2)
+    print(len(cp2moves))
+    bfs_htr(3)
+    print(len(cp2moves))
+    bfs_htr(4)
+    print(len(cp2moves))
+    bfs_htr(5)
+    print(len(cp2moves))
+    save_htr_cubie()
 
-bfs_htr(2)
-print(len(cp2moves))
 
-bfs_htr(3)
-print(len(cp2moves))
-
-bfs_htr(4)
-print(len(cp2moves))
-
-bfs_htr(5)
-print(len(cp2moves))
-
-bfs_htr(6)
-print(len(cp2moves))
+build_corner_cases()
